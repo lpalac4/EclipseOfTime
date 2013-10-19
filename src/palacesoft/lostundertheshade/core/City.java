@@ -21,6 +21,12 @@ public class City extends Building{
 	private int dam;
 	private int economy;
 	private int craftsmanship;
+	private ArrayList<Characters> inhabitants;
+	private int normalClubs;
+	private int spears;
+	private int bows;
+	private int atlatls;
+	private int maquahuitls;
 	
 	public City(){
 		ruler = null;
@@ -36,6 +42,11 @@ public class City extends Building{
 		economy = 1;
 		craftsmanship = 1;
 		resources = new ArrayList<Resource>();
+		inhabitants = new ArrayList<Characters>();
+		normalClubs = 0;
+		bows = 0;
+		atlatls = 0;
+		maquahuitls = 0;
 	}
 	
 	public void addNewResource(Resource res){
@@ -44,6 +55,11 @@ public class City extends Building{
 	
 	public void removeResource(Resource res){
 		resources.remove(res);
+	}
+	
+	public void adjustOrder(int damage) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	/**
@@ -141,6 +157,64 @@ public class City extends Building{
 	}
 	public void setPopulation(int population) {
 		this.population = population;
+	}
+
+	public ArrayList<Characters> getInhabitants() {
+		return inhabitants;
+	}
+
+	public void setInhabitants(ArrayList<Characters> inhabitants) {
+		this.inhabitants = inhabitants;
+	}
+
+	public int getNormalClubs() {
+		return normalClubs;
+	}
+
+	public void setNormalClubs(int normalClubs) {
+		this.normalClubs = normalClubs;
+	}
+
+	public int getSpears() {
+		return spears;
+	}
+
+	public void setSpears(int spears) {
+		this.spears = spears;
+	}
+
+	public int getBows() {
+		return bows;
+	}
+
+	public void setBows(int bows) {
+		this.bows = bows;
+	}
+
+	public int getAtlatls() {
+		return atlatls;
+	}
+
+	public void setAtlatls(int atlatls) {
+		this.atlatls = atlatls;
+	}
+
+	public int getMaquahuitls() {
+		return maquahuitls;
+	}
+
+	public void setMaquahuitls(int maquahuitls) {
+		this.maquahuitls = maquahuitls;
+	}
+
+	public void burnWeapons(int damage) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void destroyFood(int damage) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

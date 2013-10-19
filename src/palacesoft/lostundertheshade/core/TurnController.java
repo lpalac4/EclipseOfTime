@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class TurnController {
 
 	private Player currentPlayer;
-	private ArrayList<Player> allPlayers;
+	public static ArrayList<Player> allPlayers;
 	
 	public TurnController(){
 		

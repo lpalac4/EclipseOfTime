@@ -21,12 +21,22 @@ public class Characters extends Person {
 	private int faith;
 	private int loyalty;
 	private boolean commited;
+	private boolean isAlive;
 	
 	private Item items;
 	private String name;
 	private ImageView portrait;
 	private ArrayList<Characters> family;
 	private Kingdom faction;
+	
+	public enum Rank {
+		FREE,
+		OFFICER,
+		COUNCIL,
+		RULER
+	}
+	
+	private Rank rank;
 		
 	
 	public Characters(String rulerName, ImageView rulerImage) {
@@ -37,7 +47,10 @@ public class Characters extends Person {
 		// TODO Auto-generated constructor stub
 	}
 	
-	
+	public void murder() {
+		isAlive = false;
+		
+	}
 	
 	
 	/**
@@ -45,9 +58,23 @@ public class Characters extends Person {
 	 */
 
 	
+
 	
 	public int getStr() {
 		return str;
+	}
+
+	public boolean isAlive() {
+		return isAlive;
+	}
+
+	public void setAlive(boolean isAlive) {
+		this.isAlive = isAlive;
+	}
+
+	private void dealWithDeaths() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	public Kingdom getFaction() {
@@ -149,6 +176,12 @@ public class Characters extends Person {
 	public void setFamily(ArrayList<Characters> family) {
 		this.family = family;
 	}
+
+	public void adjustLoyalty(int delta) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 	
 	

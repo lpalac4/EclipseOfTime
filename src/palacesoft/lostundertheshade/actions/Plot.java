@@ -13,9 +13,9 @@ public class Plot extends Action {
 	private Kingdom kingdom;
 	private ArrayList<Characters> charsPlotting;
 	
-	
 	public Plot(){
-		
+		kingdom = null;
+		charsPlotting = null;
 		
 	}
 	
@@ -29,6 +29,11 @@ public class Plot extends Action {
 	public void initiate(){
 		
 	}
+	/**
+	 * Starts assasination routine.
+	 * @param plotter is the character committing the action.
+	 * @param target is the recipient of the action.
+	 */
 	
 	public void startAssassination(Characters plotter, Characters target){
 		int plotterCunning = plotter.getCunning();
@@ -40,7 +45,7 @@ public class Plot extends Action {
 			murder(target);
 		}
 		if(success < 0.15){
-			spotted(plotter.getFaction().getPlayer(), target.getFaction().getPlayer());
+			spotted(plotter.getFaction().getPlayer(), target.getFaction().getPlayer(), ActionType.MALICIOUS);
 		}
 	}
 	
@@ -49,9 +54,8 @@ public class Plot extends Action {
 	 * @param player
 	 * @param player2
 	 */
-	private void spotted(Player player, Player player2) {
-		// TODO Auto-generated method stub
-		
+	private void spotted(Player player, Player player2, ActionType actionType) {
+		player.getKingdom().getPolitics().adjustForeignStanding(player2.getKingdom(), actionType);		
 	}
 
 	/**
@@ -61,8 +65,7 @@ public class Plot extends Action {
 	 * @param target
 	 */
 	private void murder(Characters target) {
-		
-		
+		target.murder();
 	}
 
 	/**
@@ -77,7 +80,7 @@ public class Plot extends Action {
 			int cityTargetDefense = cityTarget.getOrder();
 			double success = plotterCunning/(cityTargetDefense * 2);
 			if(success > 0.5){
-				rumorsInCitySuccess(cityTarget);
+				rumorsInCitySuccess(cityTarget, success);
 			}
 			if(success < 0.15){
 				reportRumorSource(cityTarget.getRuler(), plotter.getFaction().getPlayer());
@@ -89,7 +92,7 @@ public class Plot extends Action {
 			int targetResilience = (charTarget.getAuthority() + charTarget.getWisdom())/2;
 			double success = plotterCunning/(targetResilience * 2);
 			if(success > 0.5){
-				rumorsAgainstChar(charTarget);
+				rumorsAgainstChar(charTarget, success);
 			}
 		}
 	}
@@ -100,7 +103,7 @@ public class Plot extends Action {
 	 * @param player
 	 */
 	private void reportRumorSource(Player ruler, Player player) {
-		// TODO Auto-generated method stub
+		ruler.getKingdom().getPolitics().adjustForeignStanding(player.getKingdom(), ActionType.POLITICAL);
 		
 	}
 
@@ -110,8 +113,9 @@ public class Plot extends Action {
 	 * and his/her leader.
 	 * @param charTarget
 	 */
-	private void rumorsAgainstChar(Characters charTarget) {
-		// TODO Auto-generated method stub
+	private void rumorsAgainstChar(Characters charTarget, double damage) {
+		damage *= 5;
+		charTarget.adjustLoyalty((int)damage);
 		
 	}
 
@@ -120,12 +124,19 @@ public class Plot extends Action {
 	 * to lower.
 	 * @param cityTarget
 	 */
-	private void rumorsInCitySuccess(City cityTarget) {
-		// TODO Auto-generated method stub
-		
+	private void rumorsInCitySuccess(City cityTarget, double damage) {
+		cityTarget.adjustOrder((int)damage);
+		for(Characters c : cityTarget.getInhabitants()){
+			c.adjustLoyalty((int)damage);
+		}
 	}
 
-
+/**
+ * Attempt to sabotage either the cityTarget's food supply or their weapon stash.
+ * @param plotter
+ * @param cityTarget
+ * @param targetIsFood
+ */
 	public void startSabotage(Characters plotter, City cityTarget, boolean targetIsFood){
 		int plotterCunning = plotter.getCunning();
 		int cityDefenses = cityTarget.getOrder();
@@ -133,32 +144,40 @@ public class Plot extends Action {
 		if(targetIsFood){
 			double success = plotterCunning/cityDefenses;
 			if(success > 1.5){
-				poisonFood(cityTarget);
+				poisonFood(cityTarget, success);
 			}
 			if(success < 0.2){
-				spotted(plotter.getFaction().getPlayer(), cityTarget.getRuler());
+				spotted(plotter.getFaction().getPlayer(), cityTarget.getRuler(), ActionType.POLITICAL);
 			}
 		}
 		else{
 			double success = plotterCunning/cityDefenses;
 			if(success > 1.25){
-				burnWeapons(cityTarget);
+				burnWeapons(cityTarget, success);
 			}
 			if(success < 0.2){
-				spotted(plotter.getFaction().getPlayer(), cityTarget.getRuler());
+				spotted(plotter.getFaction().getPlayer(), cityTarget.getRuler(), ActionType.POLITICAL);
 			}
 		}
 	}
 
-
-	private void burnWeapons(City cityTarget) {
-		// TODO Auto-generated method stub
+	/**
+	 * Lets the city object know to destroy some of their weapons based on the damage meter
+	 * @param cityTarget
+	 * @param damage
+	 */
+	private void burnWeapons(City cityTarget, double damage) {
+		cityTarget.burnWeapons((int) damage);
 		
 	}
 
-
-	private void poisonFood(City cityTarget) {
-		// TODO Auto-generated method stub
+	/**
+	 * Lets the city object know to destroy some of their food
+	 * @param cityTarget
+	 * @param damage
+	 */
+	private void poisonFood(City cityTarget, double damage) {
+		cityTarget.destroyFood((int) damage);
 		
 	}
 

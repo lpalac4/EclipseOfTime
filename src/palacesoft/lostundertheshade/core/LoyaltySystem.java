@@ -1,5 +1,10 @@
 package palacesoft.lostundertheshade.core;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import android.util.Pair;
+
 /**
  * The LoyaltySystem class will control how others players and city populations view your rule.
  * @author DaPalacios
@@ -10,12 +15,15 @@ public class LoyaltySystem {
 	private int loveMeter; // 0 : 100
 	private int honorMeter; // 0 : 50
 	private Kingdom kingdom;
+	
+	
 
 	public LoyaltySystem(){
 		kingdom = null;
 		fearMeter = 50;
 		loveMeter = 50;
 		honorMeter = 0;
+		
 	
 	}
 	
@@ -24,6 +32,7 @@ public class LoyaltySystem {
 		fearMeter = 50;
 		loveMeter = 50;
 		honorMeter = 0;
+
 	}
 	
 	public int populationsFeeling(Kingdom kingdompop){

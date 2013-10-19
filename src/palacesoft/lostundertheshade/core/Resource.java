@@ -10,7 +10,7 @@ import android.widget.ImageView;
  */
 public class Resource {
 
-	static enum ResourceType{
+	public static enum ResourceType{
 		NONE,
 		ANCIENT_RELIC,
 		RUBIES,

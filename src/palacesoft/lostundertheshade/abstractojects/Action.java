@@ -17,6 +17,17 @@ public abstract class Action {
 	public static ArrayList<Characters> alreadyCommittedChar = new ArrayList<Characters>();
 	private int playerAP;
 	
+	public static enum ActionType{
+		none,
+		JUST,
+		GOOD,
+		POLITICAL,
+		DAMAGING,
+		MALICIOUS
+	}
+	
+	public ActionType actionType = ActionType.none;
+	
 	public Action(){
 		apUsed = 0;
 		whoWillCommit = new Characters();
