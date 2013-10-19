@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Lost Under the Shade</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_main_menu">MainMenu</string>
+    <string name="title_activity_setup_screen">SetupScreen</string>
+    <string name="title_activity_game_screen">GameScreen</string>
+    <string name="title_activity_defeat_screen">DefeatScreen</string>
+    <string name="title_activity_domestic_screen">DomesticScreen</string>
+    <string name="title_activity_military_screen">MilitaryScreen</string>
+    <string name="title_activity_plot_screen">PlotScreen</string>
+    <string name="title_activity_politics_screen">PoliticsScreen</string>
+    <string name="title_activity_religious_screen">ReligiousScreen</string>
+    <string name="title_activity_treasury_screen">TreasuryScreen</string>
+    <string name="title_activity_win_screen">WinScreen</string>
+
+</resources>
