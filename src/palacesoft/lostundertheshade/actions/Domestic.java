@@ -18,8 +18,6 @@ import palacesoft.lostundertheshade.core.Weapon.WeaponType;
  */
 public class Domestic extends Action {
 
-	private Kingdom kingdom;
-	
 	private Characters[] charsOnFarm = {null, null, null};
 	private Characters[] charsOnDam = {null, null, null};
 	private ArrayList<WeaponsmithTuple> charsBuildingWeapons;

@@ -10,7 +10,6 @@ import palacesoft.lostundertheshade.core.Player;
 
 public class Plot extends Action {
 
-	private Kingdom kingdom;
 	private ArrayList<Characters> charsPlotting;
 	
 	public Plot(){

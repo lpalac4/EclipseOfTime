@@ -3,6 +3,7 @@ package palacesoft.lostundertheshade.abstractojects;
 import java.util.ArrayList;
 
 import palacesoft.lostundertheshade.core.Characters;
+import palacesoft.lostundertheshade.core.Kingdom;
 
 
 /**
@@ -12,10 +13,11 @@ import palacesoft.lostundertheshade.core.Characters;
  */
 public abstract class Action {
 	
-	private int apUsed;
-	private Characters whoWillCommit;
+	protected int apUsed;
+	protected Characters whoWillCommit;
+	protected Kingdom kingdom;
 	public static ArrayList<Characters> alreadyCommittedChar = new ArrayList<Characters>();
-	private int playerAP;
+	protected int playerAP;
 	
 	public static enum ActionType{
 		none,

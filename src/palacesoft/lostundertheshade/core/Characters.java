@@ -29,14 +29,34 @@ public class Characters extends Person {
 	private ArrayList<Characters> family;
 	private Kingdom faction;
 	
-	public enum Rank {
+	public static enum Rank {
 		FREE,
 		OFFICER,
 		COUNCIL,
 		RULER
-	}
+	};
 	
 	private Rank rank;
+	
+	public static enum CharacterType {
+		FIERCE,
+		RIGHTEOUS,
+		FAITHFUL,
+		TRICKSTER,
+		ROMANTIC
+	};
+	
+	private CharacterType charType;
+	
+	public static enum Conversation {
+		RUDE,
+		CHALLENGING,
+		APOLOGETIC,
+		THANKFUL,
+		SHOCKED,
+		DISMISSIVE
+	};
+	private Conversation convoType;
 		
 	
 	public Characters(String rulerName, ImageView rulerImage) {
@@ -181,6 +201,24 @@ public class Characters extends Person {
 		// TODO Auto-generated method stub
 		
 	}
+
+	public Rank getRank() {
+		return rank;
+	}
+
+	public void setRank(Rank rank) {
+		this.rank = rank;
+	}
+
+	public CharacterType getCharType() {
+		return charType;
+	}
+
+	public void setCharType(CharacterType charType) {
+		this.charType = charType;
+	}
+	
+	
 
 	
 	

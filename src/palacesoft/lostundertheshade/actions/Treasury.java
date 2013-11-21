@@ -18,4 +18,9 @@ public class Treasury extends Action{
 		
 	}
 
+	public int getFunds() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

@@ -3,6 +3,8 @@ package palacesoft.lostundertheshade.actions;
 import java.util.HashMap;
 
 import palacesoft.lostundertheshade.abstractojects.Action;
+import palacesoft.lostundertheshade.core.Characters;
+import palacesoft.lostundertheshade.core.Item;
 import palacesoft.lostundertheshade.core.Kingdom;
 import palacesoft.lostundertheshade.core.Player;
 import palacesoft.lostundertheshade.core.TurnController;
@@ -10,6 +12,8 @@ import palacesoft.lostundertheshade.core.TurnController;
 public class Politics extends Action{
 
 	private HashMap<Kingdom, Integer> opponentStanding;
+	private int WEALTHY_NATION = 1000;
+	private int WORTHY_OFFER = 750;
 	
 	public Politics(){
 		opponentStanding = new HashMap<Kingdom, Integer>();
@@ -70,7 +74,102 @@ public class Politics extends Action{
 		opponentStanding.put(k, newStanding);
 		
 	}
-	
+	/**
+	 * Method returns boolean whether the envoy has succesfully recruited the target champion.
+	 * @param envoy
+	 * @param target
+	 * @param goldAmount
+	 * @return
+	 */
+	public boolean hireChar(Characters envoy, Characters target, int goldAmount){
+		int success = 0;
+		if(envoy.getCharType() == target.getCharType()){
+			success += 50;
+		}
+		
+		if(envoy.getAuthority() > 90)
+			success += 20;
+		else if(envoy.getAuthority() > 80 && envoy.getAuthority() <=90)
+			success +=15;
+		else if(envoy.getAuthority() > 70 && envoy.getAuthority() <= 80)
+			success +=10;
+		else if(envoy.getAuthority() > 55 && envoy.getAuthority() <= 70)
+			success += 5;
+		else
+			success += 1;
+		
+		if(kingdom.getTreasury().getFunds() > WEALTHY_NATION){
+			success += (goldAmount/WEALTHY_NATION) * 10;
+		}else{
+			if(goldAmount > WORTHY_OFFER ) success += 10;
+			else if(goldAmount > 500 && goldAmount <= WORTHY_OFFER) success += 7;
+			else if(goldAmount > 200 && goldAmount <= 500) success += 5;
+			else if(goldAmount > 0) success += 1;
+		}
+		
+		success = (int) ((success * Math.random()) + (envoy.getFaction().getHomeCity().getOrder() * Math.random()) - (Math.random() * target.getLoyalty()));
+		if(success > 65)
+			return true;
+		else return false;
+	}
+	/**
+	 * Reward a character directly from the ruler with either gold or an item.
+	 * @param target
+	 * @param goldAmount
+	 * @param item
+	 */
+	public Characters.Conversation rewardCharacter(Characters target, int goldAmount, Item item){
+		int loyaltyIncrease = 0;
+		if(item == null){
+			if(goldAmount > 200){
+				if(target.getLoyalty() < 40)	
+					loyaltyIncrease += 20;
+				if(target.getLoyalty() < 60 && target.getLoyalty() >= 40)
+					loyaltyIncrease += 15;
+				if(target.getLoyalty() < 85 && target.getLoyalty() >= 60)
+					loyaltyIncrease += 10;
+				else
+					loyaltyIncrease += 5;
+			}
+			else {
+				if(target.getLoyalty() < 40)	
+					loyaltyIncrease += 10;
+				if(target.getLoyalty() < 60 && target.getLoyalty() >= 40)
+					loyaltyIncrease += 8;
+				if(target.getLoyalty() < 85 && target.getLoyalty() >= 60)
+					loyaltyIncrease += 6;
+				else
+					loyaltyIncrease += 4;
+			}
+				
+		}
+		else {
+			if(target.getLoyalty() < 40)
+				loyaltyIncrease += 40;
+			else if(target.getLoyalty() < 50 && target.getLoyalty() >= 40)
+				loyaltyIncrease += 35;
+			else if(target.getLoyalty() < 60 && target.getLoyalty() >= 50)
+				loyaltyIncrease += 30;
+			else if(target.getLoyalty() < 80 && target.getLoyalty() >= 60)
+				loyaltyIncrease += 20;
+			else {
+				loyaltyIncrease = 100 - target.getLoyalty();
+			}
+		}
+			
+		target.setLoyalty(loyaltyIncrease + target.getLoyalty()); 
+		return Characters.Conversation.THANKFUL;
+		
+	}
+	/**
+	 * Marry two characters and unite their families which has an impact on their loyalties to a house
+	 * @param husband
+	 * @param wife
+	 */
+	public void marryCharactes(Characters husband, Characters wife){
+		husband.getFamily().add(wife);
+		
+	}
 	
 	
 	/**
