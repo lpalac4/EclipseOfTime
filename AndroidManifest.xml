@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="palacesoft.lostundertheshade.StartUpActivity"
+            android:name="palacesoft.eclipseoftime.StartUpActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,47 +23,47 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="palacesoft.lostundertheshade.MenuScreen"
+            android:name="palacesoft.eclipseoftime.MenuScreen"
             android:label="@string/title_activity_main_menu" >
         </activity>
         <activity
-            android:name="palacesoft.lostundertheshade.SetupScreen"
+            android:name="palacesoft.eclipseoftime.SetupScreen"
             android:label="@string/title_activity_setup_screen" >
         </activity>
         <activity
-            android:name="palacesoft.lostundertheshade.GameScreen"
+            android:name="palacesoft.eclipseoftime.GameScreen"
             android:label="@string/title_activity_game_screen" >
         </activity>
         <activity
-            android:name="palacesoft.lostundertheshade.DefeatScreen"
+            android:name="palacesoft.eclipseoftime.DefeatScreen"
             android:label="@string/title_activity_defeat_screen" >
         </activity>
         <activity
-            android:name="palacesoft.lostundertheshade.DomesticScreen"
+            android:name="palacesoft.eclipseoftime.DomesticScreen"
             android:label="@string/title_activity_domestic_screen" >
         </activity>
         <activity
-            android:name="palacesoft.lostundertheshade.MilitaryScreen"
+            android:name="palacesoft.eclipseoftime.MilitaryScreen"
             android:label="@string/title_activity_military_screen" >
         </activity>
         <activity
-            android:name="palacesoft.lostundertheshade.PlotScreen"
+            android:name="palacesoft.eclipseoftime.PlotScreen"
             android:label="@string/title_activity_plot_screen" >
         </activity>
         <activity
-            android:name="palacesoft.lostundertheshade.PoliticsScreen"
+            android:name="palacesoft.eclipseoftime.PoliticsScreen"
             android:label="@string/title_activity_politics_screen" >
         </activity>
         <activity
-            android:name="palacesoft.lostundertheshade.ReligiousScreen"
+            android:name="palacesoft.eclipseoftime.ReligiousScreen"
             android:label="@string/title_activity_religious_screen" >
         </activity>
         <activity
-            android:name="palacesoft.lostundertheshade.TreasuryScreen"
+            android:name="palacesoft.eclipseoftime.TreasuryScreen"
             android:label="@string/title_activity_treasury_screen" >
         </activity>
         <activity
-            android:name="palacesoft.lostundertheshade.WinScreen"
+            android:name="palacesoft.eclipseoftime.WinScreen"
             android:label="@string/title_activity_win_screen" >
         </activity>
     </application>
