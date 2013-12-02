@@ -1,4 +1,4 @@
-Eclipse of Time (copyright)
+Eclipse of Time (WIP)
 =================
 * My little side project that I one day hope to expand to really do justice to the rich world
   combined with more sophisticated gameplay elements.
