@@ -45,7 +45,7 @@ public class Force {
 	
 	
 
-	/**
+	/**w
 	 * Getters and setters****************************************************
 	 */
 

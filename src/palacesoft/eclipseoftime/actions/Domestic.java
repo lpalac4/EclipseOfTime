@@ -14,7 +14,6 @@ import palacesoft.eclipseoftime.models.Weapon.WeaponType;
  * The Domestic class inherits from Action and encapsulates all moves related to the domestic side of Kingdom management.  Domestic actions include
  * assigning characters to work the fields, or repair the dam, and build orders.
  * @author DaPalacios
- *
  */
 public class Domestic extends Action {
 

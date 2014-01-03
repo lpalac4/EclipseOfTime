@@ -6,6 +6,9 @@ import javax.microedition.khronos.opengles.GL10;
 import android.content.Context;
 import android.opengl.GLU;
 import android.opengl.GLSurfaceView;
+import android.opengl.Matrix;
+import android.util.Log;
+import android.util.Pair;
 
 public class MapRenderer implements GLSurfaceView.Renderer{
 
@@ -15,12 +18,13 @@ public class MapRenderer implements GLSurfaceView.Renderer{
 	private MapObject mapObject;
 	/* values to be used for translation */
 	private float viewPortX, viewPortY, viewPortZ, centerX, centerY, centerZ;
+	private GL10 storedGl;
 
 	public MapRenderer(Context context) {
 		this.context = context;
 		viewPortX = 0;
 		viewPortY = 0;
-		viewPortZ = -2;
+		viewPortZ = -1.0f;
 		centerX = 0;
 		centerY = 0;
 		centerZ = 0;
@@ -35,7 +39,7 @@ public class MapRenderer implements GLSurfaceView.Renderer{
 		/* reset model view matrix */
 		gl.glLoadIdentity();
 		/* to translate im only changing where the camera is located */
-		gl.glTranslatef(viewPortX, -viewPortY, -2.0f);	
+		gl.glTranslatef(viewPortX, -viewPortY, viewPortZ);	
 		mapObject.drawMap(gl);						
 		
 	}
@@ -54,14 +58,15 @@ public class MapRenderer implements GLSurfaceView.Renderer{
 		GLU.gluPerspective(gl, 45.0f, (float)width / (float)height, 0.1f, 100.0f);
 
 		gl.glMatrixMode(GL10.GL_MODELVIEW); 	
-		gl.glLoadIdentity(); 					
+		gl.glLoadIdentity(); 
+		storedGl = gl;
 	}
 
 	@Override
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
 		// Load the texture for the square
 		mapObject.loadGLTexture(gl, context);
-				
+		
 		gl.glEnable(GL10.GL_TEXTURE_2D);			
 		gl.glShadeModel(GL10.GL_SMOOTH); 			
 		gl.glClearColor(0.0f, 0.0f, 0.0f, 0.5f); 	
@@ -70,7 +75,9 @@ public class MapRenderer implements GLSurfaceView.Renderer{
 		gl.glDepthFunc(GL10.GL_LEQUAL); 			
 				
 		gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_NICEST); 
+		storedGl = gl;
 	}
+	
 
 	public Context getContext() {
 		return context;
@@ -118,6 +125,19 @@ public class MapRenderer implements GLSurfaceView.Renderer{
 
 	public void setCenterY(float centerY) {
 		this.centerY = centerY;
+	}
+
+	public float getViewPortZoom() {
+		return viewPortZ;
+	}
+
+	public float getViewZoom() {
+		return viewPortZ;
+	}
+
+	public void setViewPortZoom(float f) {
+		viewPortZ = f;
+		
 	}
 
 	

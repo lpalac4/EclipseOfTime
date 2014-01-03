@@ -54,8 +54,24 @@ public class Military extends Action{
 		
 		return totalStrength;
 	}
+	
 	/**
-	 * Calls your banners and forces your subjects to declare war on another kingdom, dependent 
+	 * Recruit a soldier, can be upgraded with weapons to a specialized unit.
+	 * One soldier is equivalent to one population and 10 order.
+	 * @param drafter
+	 * @param numberOfSoldiers
+	 */
+	public void draftSoldiers(Characters drafter, int numberOfSoldiers){
+		/* make the character who is drafting unable to commmit another move */
+		setWhoWillCommit(drafter);
+		/* decrease the city population by the amount of soldiers being recruited */
+		kingdom.getHomeCity().setPopulation(kingdom.getHomeCity().getPopulation() - numberOfSoldiers);
+		/* kingdom suffers order */
+		kingdom.getHomeCity().setOrder(kingdom.getHomeCity().getOrder()-10);
+	}
+	
+	/**
+	 * Call your banners and forces your subjects to declare war on another kingdom, dependent 
 	 * on their allegiance towards you and the target this may negatively effect their loyalty.
 	 * @param target
 	 * @param ally
@@ -73,5 +89,27 @@ public class Military extends Action{
 	public void coordinateAttack(Kingdom taget, ArrayList<Kingdom> allies){
 		
 	}
-
+	
+	/**
+	 * Create a new force that will appear on the map and move to attack another city.  The attacking
+	 * force will benefit with a slight boost in morale.
+	 * @param cityTarget
+	 * @param _force
+	 */
+	public void attackCity(City cityTarget, Force _force ){
+		forcesActive.add(_force);
+		_force.setMorale(_force.getMorale() + 5);
+	}
+	
+	/**
+	 * Send out your troops to meet the enemy on the field, will be able to position troops first
+	 * and have 3 turns to build a defensive post.
+	 * @param attackingForce
+	 * @param _force
+	 */
+	public void sendOutDefensiveForce(Force attackingForce, Force _force){
+		forcesActive.add(_force);	
+	}
+	
+	
 }

@@ -1,6 +1,8 @@
 package palacesoft.eclipseoftime;
 
+import palacesoft.eclipseoftime.utils.SongArray;
 import palacesoft.lostundertheshade.R;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -34,7 +36,8 @@ public class MenuScreen extends Activity {
 	private FrameLayout hLayout;
 	private FragmentManager fm;
 	private Intent setupIntent;
-
+	private MediaPlayer mediaPlayer;
+	private SongArray songs;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +108,9 @@ public class MenuScreen extends Activity {
 		hLayout.addView(imageGLayout);
 		hLayout.addView(gravityLayout);
 		hLayout.setBackgroundColor(Color.BLACK);
+		
+		/* now declare and define the mediaplayer object */
+		//mediaPlayer = MediaPlayer.create(getApplicationContext(), songs.songs[0]);
 		
 		setContentView(hLayout);
 		Log.d(TAG, "Setting Content View in menuScreen");

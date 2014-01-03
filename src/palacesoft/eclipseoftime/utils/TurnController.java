@@ -1,6 +1,8 @@
-package palacesoft.eclipseoftime.models;
+package palacesoft.eclipseoftime.utils;
 
 import java.util.ArrayList;
+
+import palacesoft.eclipseoftime.models.Player;
 
 /**
  * TurnController class manages the turns for all players.
@@ -10,22 +12,31 @@ import java.util.ArrayList;
 public class TurnController {
 
 	private Player currentPlayer;
-	public static ArrayList<Player> allPlayers;
+	static int turnIndex = 1;
 	
 	public TurnController(){
 		
 	}
 	
 	public TurnController(ArrayList<Player> playersInGame){
-		allPlayers = playersInGame;
 		currentPlayer = determinePlayer();
 		
 	}
 
 	public Player determinePlayer() {
-		//tbd the order of turns
-				
+		//tbd the order of turns		
+		Player currentPlayer = Player.allPlayers.get(turnIndex);
+		
+		if(turnIndex <= Player.allPlayers.size())
+			turnIndex++;
+		else{
+			turnIndex = 1;
+		}
 		return currentPlayer;
+	}
+	
+	public void addPlayer(Player player_){
+		Player.allPlayers.add(player_);
 	}
 	
 	/**

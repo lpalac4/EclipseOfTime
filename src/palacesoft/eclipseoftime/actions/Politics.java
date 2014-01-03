@@ -7,7 +7,7 @@ import palacesoft.eclipseoftime.models.Characters;
 import palacesoft.eclipseoftime.models.Item;
 import palacesoft.eclipseoftime.models.Kingdom;
 import palacesoft.eclipseoftime.models.Player;
-import palacesoft.eclipseoftime.models.TurnController;
+import palacesoft.eclipseoftime.utils.TurnController;
 
 public class Politics extends Action{
 

@@ -1,13 +1,16 @@
 package palacesoft.eclipseoftime.models;
 
+import java.util.ArrayList;
+
 
 /**
  * Player class is the base class for all players and their kingdoms.
- * @author DaPalacios
+ * @author Luis Palacios
  *
  */
 public class Player {
 	
+	public static ArrayList<Player> allPlayers;
 	private Kingdom kingdom;
 	private int AP;
 	private Score score;
@@ -22,6 +25,7 @@ public class Player {
 	};
 	
 	private Difficulty difficulty;
+	
 
 	public Player(){
 		kingdom = new Kingdom();
@@ -32,6 +36,7 @@ public class Player {
 		name = "";
 		isAI = false;
 		difficulty = Difficulty.MEDIUM;
+		allPlayers.add(this);
 	}
 	
 	public Player(String name, Difficulty diff){
@@ -43,7 +48,7 @@ public class Player {
 		loyaltysys = new LoyaltySystem();
 		council = new Council();
 		isAI = false;
-		
+		allPlayers.add(this);
 	}
 	
 	/**

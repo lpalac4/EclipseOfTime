@@ -1,0 +1,66 @@
+
+    /* generic soldier/citizen bitmaps */
+    avatar
+        blacksmiths
+        trade people
+        soldiers being trained
+        priests at temple
+        political member        
+    
+    /* character bitmaps */
+    avatar - just a generic general for now
+    
+    /* kingdom bitmaps */
+    house icons
+    throne room for each kingdom
+        - rulers male/female
+        - council members
+        - 6 total chars
+            ruler
+            masterOfCoin;
+         `  warchief;
+            highPriest;
+            masterOfShadows;
+            rulersFist;
+    
+    /* city bitmaps */
+    map view 
+    skyview-room for city upgrades
+    
+    /* city upgrades */
+    skyview and close up 
+        wall
+        pyramid
+        temple
+        market
+        armory
+    
+    /* item and weapon bitmaps */
+    icons for menu
+        club,
+        Spear,
+        Bow,
+        Atlatl,
+        Maquahuitl
+    we will have items in the game like
+        scroll +intellect
+        weapon +power
+        etc....
+    
+    /* military unit bitmaps */
+    mapView
+        with bannerholder where kingdom icon can be drawn on top of
+    
+    /* ui elements */
+    i have to draw every screen for you
+    
+    /* victory bitmap */
+    
+    /* defeat bitmap */
+    
+    /* company logo */
+    
+    /* main menu with game logo */
+    
+    
+    /* background for any transparent ui elements */

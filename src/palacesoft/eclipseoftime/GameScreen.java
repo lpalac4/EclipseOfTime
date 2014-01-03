@@ -1,11 +1,18 @@
 package palacesoft.eclipseoftime;
 
+import java.io.File;
+
 import palacesoft.eclipseoftime.mapview.MapRenderer;
 import palacesoft.eclipseoftime.mapview.MapView;
+import palacesoft.eclipseoftime.models.Player;
+import palacesoft.eclipseoftime.models.Player.Difficulty;
+import palacesoft.eclipseoftime.utils.GameLoop;
+import palacesoft.eclipseoftime.utils.TurnController;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.text.method.HideReturnsTransformationMethod;
@@ -17,6 +24,7 @@ import android.view.WindowManager;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.ViewFlipper;
 
 public class GameScreen extends FragmentActivity {
 
@@ -30,10 +38,26 @@ public class GameScreen extends FragmentActivity {
 	private PoliticsScreen politicsFrag;
 	private ReligiousScreen religionFrag;
 	private TreasuryScreen treasuryFrag;
+	private EligibilityScreen eligibilityFrag; 
+	private InfoScreen infoFrag;
 	private int[] gameOptions;
 	private int[] defaultOptions = {30,3,40,20};
-	private LinearLayout leftFragLayout;
-	private LinearLayout rightFragLayout; 
+	private FrameLayout leftFragLayout;
+	private FrameLayout rightFragLayout;
+	
+	private FrameLayout currentBotView;
+	private BottomMenuView botDefaultMenu;
+	private BottomMenuDomestic botDomMenu;
+	private BottomMenuInfo botInfoMenu;
+	private BottomMenuMilitary botMilitaryMenu;
+	private BottomMenuPlot botPlotMenu;
+	private BottomMenuPolitics botPoliticsMenu;
+	private BottomMenuReligion botReligionMenu;
+	
+	public GameLoop gameLoop;
+	
+	private TopMenuView topMenu;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +65,8 @@ public class GameScreen extends FragmentActivity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN); 
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-
+		File gameData = new File("/gameData.data");
+		
 		/* getting dimensions from the device running the game */
 		screenW = getResources().getDisplayMetrics().widthPixels;
 		screenH = getResources().getDisplayMetrics().heightPixels;
@@ -56,6 +81,7 @@ public class GameScreen extends FragmentActivity {
 		mapView = new MapView(this);
 		mapView.setLayoutParams(new LinearLayout.LayoutParams(screenW, (int)(screenH * 0.80)));
 		//mapView.setRenderer(new MapRenderer(this));
+		gameLoop = new GameLoop(defaultOptions[1], Difficulty.MEDIUM, gameData, this);
 	
 		/* the lowest layout where everything on screen will be held, will match the devices dimensions */
 		finalLayout = new LinearLayout(this);
@@ -77,54 +103,66 @@ public class GameScreen extends FragmentActivity {
 		rightfrag.gravity = Gravity.RIGHT;
 
 		/* initializing the layouts for the two fragments */
-		leftFragLayout = new LinearLayout(this);
+		leftFragLayout = new FrameLayout(this);
 		leftFragLayout.setLayoutParams(leftfrag);
-		leftFragLayout.setBackgroundColor(Color.BLACK);
-		leftFragLayout.setOrientation(LinearLayout.VERTICAL);
+		leftFragLayout.setBackgroundColor(Color.WHITE);
+		//leftFragLayout.setOrientation(LinearLayout.VERTICAL);
 		leftFragLayout.setId(4);
-		rightFragLayout = new LinearLayout(this);
+		rightFragLayout = new FrameLayout(this);
 		rightFragLayout.setLayoutParams(rightfrag);
-		rightFragLayout.setBackgroundColor(Color.BLACK);
-		rightFragLayout.setOrientation(LinearLayout.VERTICAL);
+		rightFragLayout.setBackgroundColor(Color.WHITE);
+		//rightFragLayout.setOrientation(LinearLayout.77VERTICAL);
 		rightFragLayout.setId(5);
 
 		/* initialize the fragments that may appear on screen */
-		domesticFrag = new DomesticScreen();
-		militaryFrag = new MilitaryScreen();
-		plotFrag = new PlotScreen();
-		politicsFrag = new PoliticsScreen();
-		religionFrag = new ReligiousScreen();
-		treasuryFrag = new TreasuryScreen();
-		
 		/* commit those initialized fragments to their respective layout */
 		FragmentTransaction fTrans = getSupportFragmentManager().beginTransaction(); 
+		domesticFrag = new DomesticScreen();
 		fTrans.add(leftFragLayout.getId(), domesticFrag, "Domestic Fragment");
 		fTrans.hide(domesticFrag);
 		fTrans.addToBackStack(null);
 		fTrans.commit();
 		fTrans = getSupportFragmentManager().beginTransaction(); 
+		militaryFrag = new MilitaryScreen();
 		fTrans.add(leftFragLayout.getId(), militaryFrag, "Military Fragment");
 		fTrans.hide(militaryFrag);
 		fTrans.addToBackStack(null);
 		fTrans.commit();
 		fTrans = getSupportFragmentManager().beginTransaction(); 
+		plotFrag = new PlotScreen();
 		fTrans.add(leftFragLayout.getId(), plotFrag, "Plot Fragment");
 		fTrans.hide(plotFrag);
 		fTrans.addToBackStack(null);
 		fTrans.commit();
 		fTrans = getSupportFragmentManager().beginTransaction(); 
-		fTrans.add(rightFragLayout.getId(), politicsFrag, "Politics Fragment");
-		fTrans.hide(plotFrag);
+		politicsFrag = new PoliticsScreen();
+		fTrans.add(leftFragLayout.getId(), politicsFrag, "Politics Fragment");
+		fTrans.hide(politicsFrag);
 		fTrans.addToBackStack(null);
 		fTrans.commit();
+		
 		fTrans = getSupportFragmentManager().beginTransaction(); 
-		fTrans.add(rightFragLayout.getId(), religionFrag, "Religion Fragment");
-		fTrans.hide(plotFrag);
+		religionFrag = new ReligiousScreen();
+		fTrans.add(leftFragLayout.getId(), religionFrag, "Religion Fragment");
+		fTrans.hide(religionFrag);
 		fTrans.addToBackStack(null);
 		fTrans.commit();
-		fTrans = getSupportFragmentManager().beginTransaction(); 
-		fTrans.add(rightFragLayout.getId(), treasuryFrag, "Treasury Fragment");
-		fTrans.hide(plotFrag);
+		fTrans = getSupportFragmentManager().beginTransaction();
+		treasuryFrag = new TreasuryScreen();
+		fTrans.add(leftFragLayout.getId(), treasuryFrag, "Treasury Fragment");
+		fTrans.hide(treasuryFrag);
+		fTrans.addToBackStack(null);
+		fTrans.commit();
+		fTrans = getSupportFragmentManager().beginTransaction();
+		infoFrag = new InfoScreen();
+		fTrans.add(leftFragLayout.getId(), infoFrag, "Information Fragment");
+		fTrans.hide(infoFrag);
+		fTrans.addToBackStack(null);
+		fTrans.commit();
+		fTrans = getSupportFragmentManager().beginTransaction();
+		eligibilityFrag = new EligibilityScreen();
+		fTrans.add(rightFragLayout.getId(), eligibilityFrag, "Eligibility List");
+		fTrans.hide(eligibilityFrag);
 		fTrans.addToBackStack(null);
 		fTrans.commit();
 
@@ -134,11 +172,13 @@ public class GameScreen extends FragmentActivity {
 		middleLayout.addView(mapView);
 		middleLayout.addView(rightFragLayout);
 		middleLayout.addView(leftFragLayout);
+		currentBotView = new FrameLayout(this);
+		createBotLabel();
 		/* add the views on top of final layout in this order, 
 		 * top label-> interactive map -> leftFrag -> right fragment -> bottom label */
 		finalLayout.addView(createTopLabel());
 		finalLayout.addView(middleLayout);
-		finalLayout.addView(createBotLabel());
+		finalLayout.addView(currentBotView);
 
 		/* testing listeners */
 		finalLayout.setOnClickListener(new View.OnClickListener() {
@@ -155,20 +195,64 @@ public class GameScreen extends FragmentActivity {
 				else if(leftFragLayout.getVisibility() == LinearLayout.VISIBLE)
 					leftFragLayout.setVisibility(LinearLayout.GONE);
 				
+				showDefaultBotOptions();
+				
 			}
 		});
+		hideLeftFrags();
+		hideRightFrags();
 
 		/* set the final view to go up for display */
 		setContentView(finalLayout);
 	}
 
-	private View createBotLabel() {
-		BottomMenuView botMenu = new BottomMenuView(this);
-		return botMenu.getView();
+	private void createBotLabel() {
+		botDefaultMenu = new BottomMenuView(this);
+		botDefaultMenu.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, (int)(screenH * 0.10)));
+		
+		botDomMenu = new BottomMenuDomestic(this);
+		botDomMenu.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, (int)(screenH * 0.10)));
+		
+		botInfoMenu = new BottomMenuInfo(this);
+		botInfoMenu.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, (int)(screenH * 0.10)));
+		
+		botMilitaryMenu = new BottomMenuMilitary(this);
+		botMilitaryMenu.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, (int)(screenH * 0.10)));
+		
+		botPlotMenu = new BottomMenuPlot(this);
+		botPlotMenu.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, (int)(screenH * 0.10)));
+		
+		botPoliticsMenu = new BottomMenuPolitics(this);
+		botPoliticsMenu.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, (int)(screenH * 0.10)));
+		
+		botReligionMenu = new BottomMenuReligion(this);
+		botReligionMenu.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, (int)(screenH * 0.10)));
+		
+		currentBotView.addView(botDefaultMenu.getView());
+		currentBotView.addView(botDomMenu.getView());
+		currentBotView.addView(botInfoMenu.getView());
+		currentBotView.addView(botMilitaryMenu.getView());
+		currentBotView.addView(botPlotMenu.getView());
+		currentBotView.addView(botPoliticsMenu.getView());
+		currentBotView.addView(botReligionMenu.getView());
+
+		showDefaultBotOptions();
+	
+	}
+	
+	private void hideBotViews(){
+		botDefaultMenu.getView().setVisibility(View.GONE);
+		botDomMenu.getView().setVisibility(View.GONE);
+		botInfoMenu.getView().setVisibility(View.GONE);
+		botMilitaryMenu.getView().setVisibility(View.GONE);
+		botPlotMenu.getView().setVisibility(View.GONE);
+		botPoliticsMenu.getView().setVisibility(View.GONE);
+		botReligionMenu.getView().setVisibility(View.GONE);
 	}
 
 	private View createTopLabel() {
-		TopMenuView topMenu = new TopMenuView(this);
+		topMenu = new TopMenuView(this);
+		topMenu.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, (int)(screenH * 0.10)));
 		return topMenu.getView();
 	}
 
@@ -184,6 +268,7 @@ public class GameScreen extends FragmentActivity {
 	 * in mind that fragments can be either on the left or right of the screen.
 	 */
 	public boolean showDomesticScreen(){
+		hideLeftFrags();
 		FragmentTransaction fTrans = getSupportFragmentManager().beginTransaction(); 
 		if(domesticFrag != null && domesticFrag.isHidden())
 			fTrans.show(domesticFrag);
@@ -191,9 +276,41 @@ public class GameScreen extends FragmentActivity {
 		fTrans.addToBackStack(null);
 		fTrans.commit();
 		
+		leftFragLayout.setVisibility(View.VISIBLE);
+		
 		return false;
 	}
+	
+	public boolean showEligibilityScreen(){
+		hideRightFrags();
+		FragmentTransaction fTrans = getSupportFragmentManager().beginTransaction(); 
+		if(eligibilityFrag != null && eligibilityFrag.isHidden())
+			fTrans.show(eligibilityFrag);
+		
+		fTrans.addToBackStack(null);
+		fTrans.commit();
+		
+		rightFragLayout.setVisibility(View.VISIBLE);
+		
+		return false;
+	}
+	
+	public boolean showInfoScreen(){
+		hideLeftFrags();
+		FragmentTransaction fTrans = getSupportFragmentManager().beginTransaction(); 
+		if(infoFrag != null && infoFrag.isHidden())
+			fTrans.show(domesticFrag);
+		
+		fTrans.addToBackStack(null);
+		fTrans.commit();
+		
+		leftFragLayout.setVisibility(View.VISIBLE);
+		
+		return false;
+	}
+	
 	public boolean showMilitaryScreen(){
+		hideLeftFrags();
 		FragmentTransaction fTrans = getSupportFragmentManager().beginTransaction(); 
 		if(militaryFrag != null && militaryFrag.isHidden())
 			fTrans.show(militaryFrag);
@@ -201,42 +318,56 @@ public class GameScreen extends FragmentActivity {
 		fTrans.addToBackStack(null);
 		fTrans.commit();
 		
+		leftFragLayout.setVisibility(View.VISIBLE);
+		
 		return false;
 	}
 	public boolean showPlotScreen(){
+		hideLeftFrags();
 		FragmentTransaction fTrans = getSupportFragmentManager().beginTransaction(); 
 		if(plotFrag != null && plotFrag.isHidden())
 			fTrans.show(plotFrag);
 
 		fTrans.addToBackStack(null);
 		fTrans.commit();
+		
+		leftFragLayout.setVisibility(View.VISIBLE);
 		return false;
 	}
-	private boolean showPoliticsScreen(){	
+	public boolean showPoliticsScreen(){	
+		hideLeftFrags();
 		FragmentTransaction fTrans = getSupportFragmentManager().beginTransaction(); 
 		if(politicsFrag != null && politicsFrag.isHidden())
 			fTrans.show(politicsFrag);
 
 		fTrans.addToBackStack(null);
 		fTrans.commit();
+		
+		leftFragLayout.setVisibility(View.VISIBLE);
 		return false;
 	}
-	private boolean showReligiousScreen(){
+	public boolean showReligiousScreen(){
+		hideLeftFrags();
 		FragmentTransaction fTrans = getSupportFragmentManager().beginTransaction(); 
 		if(religionFrag != null && religionFrag.isHidden())
 			fTrans.show(religionFrag);
 
 		fTrans.addToBackStack(null);
 		fTrans.commit();
+		
+		leftFragLayout.setVisibility(View.VISIBLE);
 		return false;
 	}
-	private boolean showTreasuryScreen(){
+	public boolean showTreasuryScreen(){
+		hideLeftFrags();
 		FragmentTransaction fTrans = getSupportFragmentManager().beginTransaction(); 
 		if(treasuryFrag != null && treasuryFrag.isHidden())
 			fTrans.show(treasuryFrag);
 
 		fTrans.addToBackStack(null);
 		fTrans.commit();
+		
+		leftFragLayout.setVisibility(View.VISIBLE);
 		return false;
 	}
 
@@ -269,22 +400,27 @@ public class GameScreen extends FragmentActivity {
 			fTrans.hide(militaryFrag);
 		if(plotFrag != null && !plotFrag.isHidden())
 			fTrans.hide(plotFrag);
-
-		fTrans.addToBackStack(null);
-		fTrans.commit();
-		
-	}
-	private void hideRightFrags(){
-		FragmentTransaction fTrans = getSupportFragmentManager().beginTransaction(); 
 		if(politicsFrag != null && politicsFrag.isHidden())
 			fTrans.hide(politicsFrag);
 		if(religionFrag != null && !religionFrag.isHidden())
 			fTrans.hide(religionFrag);
 		if(treasuryFrag != null && !treasuryFrag.isHidden())
 			fTrans.hide(treasuryFrag);
+
+		fTrans.addToBackStack(null);
+		fTrans.commit();
+		
+		leftFragLayout.setVisibility(View.GONE);
+	}
+	private void hideRightFrags(){
+		FragmentTransaction fTrans = getSupportFragmentManager().beginTransaction(); 
+		if(eligibilityFrag != null && eligibilityFrag.isHidden())
+			fTrans.hide(eligibilityFrag);
 		
 		fTrans.addToBackStack(null);
 		fTrans.commit();
+	
+		rightFragLayout.setVisibility(View.GONE);
 	}
 
 	/**
@@ -310,6 +446,179 @@ public class GameScreen extends FragmentActivity {
 		mapView.onPause();
 	}
 
+	public void showInfoOptions() {
+		hideBotViews();
+		botInfoMenu.getView().setVisibility(View.VISIBLE);
+		//showInfoScreen();
+		
+	}
+
+	public void showMilitaryOptions() {
+		hideBotViews();
+		botMilitaryMenu.getView().setVisibility(View.VISIBLE);
+		//showMilitaryScreen();
+		
+	}
+
+	public void showDomesticOptions() {
+		hideBotViews();
+		botDomMenu.getView().setVisibility(View.VISIBLE);
+		//showDomesticScreen();
+		
+	}
+
+	public void showPoliticsOptions() {
+		hideBotViews();
+		botPoliticsMenu.getView().setVisibility(View.VISIBLE);
+		//showPoliticsScreen();
+		
+	}
+
+	public void showPlotOptions() {
+		hideBotViews();
+		botPlotMenu.getView().setVisibility(View.VISIBLE);
+		//showPlotScreen();
+		
+	}
+	
+	public void showDefaultBotOptions(){
+		hideBotViews();
+		botDefaultMenu.getView().setVisibility(View.VISIBLE);
+		hideLeftFrags();
+		hideRightFrags();
+	}
+
+	public void showReligionOptions() {
+		hideBotViews();
+		botReligionMenu.getView().setVisibility(View.VISIBLE);
+		//showReligiousScreen();
+		
+	}
+
+	public FrameLayout getCurrentBotView() {
+		return currentBotView;
+	}
+
+	public void setCurrentBotView(FrameLayout currentBotView) {
+		this.currentBotView = currentBotView;
+	}
+
+	public BottomMenuView getBotDefaultMenu() {
+		return botDefaultMenu;
+	}
+
+	public void setBotDefaultMenu(BottomMenuView botDefaultMenu) {
+		this.botDefaultMenu = botDefaultMenu;
+	}
+
+	public BottomMenuDomestic getBotDomMenu() {
+		return botDomMenu;
+	}
+
+	public void setBotDomMenu(BottomMenuDomestic botDomMenu) {
+		this.botDomMenu = botDomMenu;
+	}
+
+	public BottomMenuInfo getBotInfoMenu() {
+		return botInfoMenu;
+	}
+
+	public void setBotInfoMenu(BottomMenuInfo botInfoMenu) {
+		this.botInfoMenu = botInfoMenu;
+	}
+
+	public BottomMenuMilitary getBotMilitaryMenu() {
+		return botMilitaryMenu;
+	}
+
+	public void setBotMilitaryMenu(BottomMenuMilitary botMilitaryMenu) {
+		this.botMilitaryMenu = botMilitaryMenu;
+	}
+
+	public BottomMenuPlot getBotPlotMenu() {
+		return botPlotMenu;
+	}
+
+	public void setBotPlotMenu(BottomMenuPlot botPlotMenu) {
+		this.botPlotMenu = botPlotMenu;
+	}
+
+	public BottomMenuPolitics getBotPoliticsMenu() {
+		return botPoliticsMenu;
+	}
+
+	public void setBotPoliticsMenu(BottomMenuPolitics botPoliticsMenu) {
+		this.botPoliticsMenu = botPoliticsMenu;
+	}
+
+	public BottomMenuReligion getBotReligionMenu() {
+		return botReligionMenu;
+	}
+
+	public void setBotReligionMenu(BottomMenuReligion botReligionMenu) {
+		this.botReligionMenu = botReligionMenu;
+	}
+
+	public DomesticScreen getDomesticFrag() {
+		return domesticFrag;
+	}
+
+	public void setDomesticFrag(DomesticScreen domesticFrag) {
+		this.domesticFrag = domesticFrag;
+	}
+
+	public MilitaryScreen getMilitaryFrag() {
+		return militaryFrag;
+	}
+
+	public void setMilitaryFrag(MilitaryScreen militaryFrag) {
+		this.militaryFrag = militaryFrag;
+	}
+
+	public PlotScreen getPlotFrag() {
+		return plotFrag;
+	}
+
+	public void setPlotFrag(PlotScreen plotFrag) {
+		this.plotFrag = plotFrag;
+	}
+
+	public PoliticsScreen getPoliticsFrag() {
+		return politicsFrag;
+	}
+
+	public void setPoliticsFrag(PoliticsScreen politicsFrag) {
+		this.politicsFrag = politicsFrag;
+	}
+
+	public ReligiousScreen getReligionFrag() {
+		return religionFrag;
+	}
+
+	public void setReligionFrag(ReligiousScreen religionFrag) {
+		this.religionFrag = religionFrag;
+	}
+
+	public EligibilityScreen getEligibilityFrag() {
+		return eligibilityFrag;
+	}
+
+	public void setEligibilityFrag(EligibilityScreen eligibilityFrag) {
+		this.eligibilityFrag = eligibilityFrag;
+	}
+
+	public InfoScreen getInfoFrag() {
+		return infoFrag;
+	}
+
+	public void setInfoFrag(InfoScreen infoFrag) {
+		this.infoFrag = infoFrag;
+	}
+
+	public Player getPlayer() {
+		
+		return gameLoop.getTurnController().getCurrentPlayer();
+	}
 
 }
 

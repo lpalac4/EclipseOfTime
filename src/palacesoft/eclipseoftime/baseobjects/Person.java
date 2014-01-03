@@ -9,12 +9,19 @@ import palacesoft.eclipseoftime.models.Weapon;
  */
 public class Person {
 
+	/* hit points of every characters */
 	private int hp;
+	/* attack value */
 	private int atk;
+	/* defense value */
 	private int def;
+	/* how many spaces this unit can move */
 	private int mov;
+	/* how far away it can attack */
 	private int range;
+	/* named unit reserved for Characters */
 	private String name;
+	/* type of weapon used */
 	private Weapon weapon;
 	
 	public Person(){

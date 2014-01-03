@@ -22,6 +22,7 @@ public class City extends Building{
 	private int economy;
 	private int craftsmanship;
 	private ArrayList<Characters> inhabitants;
+	private int soldiers;
 	private int normalClubs;
 	private int spears;
 	private int bows;
@@ -51,6 +52,7 @@ public class City extends Building{
 		bows = 0;
 		atlatls = 0;
 		maquahuitls = 0;
+		soldiers = 1;
 	}
 	
 	public void addNewResource(Resource res){
@@ -251,6 +253,14 @@ public class City extends Building{
 
 	public void setPlants(int plants) {
 		this.plants = plants;
+	}
+
+	public int getSoldiers() {
+		return soldiers;
+	}
+
+	public void setSoldiers(int soldiers) {
+		this.soldiers = soldiers;
 	}
 	
 	

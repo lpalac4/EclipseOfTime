@@ -18,14 +18,16 @@ public class BottomMenuView extends View {
 	private int screenW;
 	private int screenH;
 	private LinearLayout bottomHorizontalLayout;
-	private Button acceptSelection;
-	private Button resetSelection;
+	private Button infoButton;
+	private Button militaryButton;
+	private Button domesticButton;
+	private Button plotButton;
+	private Button politicsButton;
+	private Button religionButton;
 	private TextView instructionText;
-	private Button continueButton;
-	private ImageView playerIndicator;
 	private String messageString = "Message needs to be set for this phase.";
-	private String leftButtonString = "Reset";
-	private String rightButtonString = "Confirm";
+	private String leftButtonString = "Military";
+	private String rightButtonString = "Domestic";
 	private GameScreen gameScreen;
 
 	public BottomMenuView(Context context) {
@@ -35,90 +37,124 @@ public class BottomMenuView extends View {
 		screenH = context.getResources().getDisplayMetrics().heightPixels;
 		gameScreen = (GameScreen) context;
 		
-		int[] playerIndicatorSize = {(int)(screenW * 0.1),(int)(screenH * 0.10)};
-		int[] messageSize = {(int)(screenW * 0.5),(int)(screenH * 0.1)};
-		int[] acceptButtonSize = {(int)(screenW * 0.15), (int)(screenH * 0.1)};
-		int[] resetButtonSize = {(int)(screenW * 0.15), (int)(screenH * 0.1)};
-		int[] continueIconSize = {(int)(screenW * 0.1), (int)(screenH * 0.1)};
+		int[] buttonSize = {(int)(screenW * 0.15), (int)(screenH * 0.09)};
 
-		LinearLayout.LayoutParams botLinearParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+		LinearLayout.LayoutParams botLinearParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 		
 		
 		bottomHorizontalLayout = new LinearLayout(context);
 		bottomHorizontalLayout.setLayoutParams(botLinearParams);
 		bottomHorizontalLayout.setGravity(Gravity.BOTTOM | Gravity.CENTER);
 		
-		acceptSelection = new Button(context);
-		acceptSelection.setText(rightButtonString);
-		acceptSelection.setTextColor(Color.WHITE);
-		acceptSelection.setTextSize(12);
-		acceptSelection.setBackgroundResource(R.drawable.custom_button);
-		acceptSelection.setLayoutParams(new LinearLayout.LayoutParams(acceptButtonSize[0], acceptButtonSize[1]));
+		infoButton = new Button(context);
+		infoButton.setText("Info");
+		infoButton.setTextColor(Color.WHITE);
+		infoButton.setTextSize(12);
+		infoButton.setBackgroundResource(R.drawable.custom_button);
+		infoButton.setLayoutParams(new LinearLayout.LayoutParams(buttonSize[0], buttonSize[1]));
 		
-		resetSelection = new Button(context);
-		resetSelection.setText(leftButtonString);
-		resetSelection.setTextColor(Color.WHITE);
-		resetSelection.setTextSize(12);
-		resetSelection.setBackgroundResource(R.drawable.custom_button);
-		resetSelection.setLayoutParams(new LinearLayout.LayoutParams(resetButtonSize[0], resetButtonSize[1]));
+		militaryButton = new Button(context);
+		militaryButton.setText("Military");
+		militaryButton.setTextColor(Color.WHITE);
+		militaryButton.setTextSize(12);
+		militaryButton.setBackgroundResource(R.drawable.custom_button);
+		militaryButton.setLayoutParams(new LinearLayout.LayoutParams(buttonSize[0], buttonSize[1]));
 		
 		instructionText =  new TextView(context);
 		instructionText.setTextColor(Color.WHITE);
 		instructionText.setText(messageString);
-		instructionText.setLayoutParams(new LayoutParams(messageSize[0], messageSize[1]));
+		instructionText.setLayoutParams(new LinearLayout.LayoutParams(buttonSize[0], buttonSize[1]));
 		instructionText.setGravity(Gravity.CENTER);
 		
-		continueButton = new Button(context);
-		continueButton.setBackgroundResource(R.drawable.continue_icon);
-		continueButton.setLayoutParams(new LinearLayout.LayoutParams(continueIconSize[0], continueIconSize[1]));
+		plotButton = new Button(context);
+		plotButton.setText("Plot");
+		plotButton.setTextColor(Color.WHITE);
+		plotButton.setTextSize(12);
+		plotButton.setBackgroundResource(R.drawable.custom_button);
+		plotButton.setLayoutParams(new LinearLayout.LayoutParams(buttonSize[0], buttonSize[1]));
 		
-		playerIndicator = new ImageView(context);
-		playerIndicator.setImageResource(R.drawable.player_indicator);
-		playerIndicator.setLayoutParams(new LinearLayout.LayoutParams(playerIndicatorSize[0], playerIndicatorSize[1]));
+		domesticButton = new Button(context);
+		domesticButton.setText("Domestic");
+		domesticButton.setTextColor(Color.WHITE);
+		domesticButton.setTextSize(12);
+		domesticButton.setBackgroundResource(R.drawable.custom_button);
+		domesticButton.setLayoutParams(new LinearLayout.LayoutParams(buttonSize[0], buttonSize[1]));
 		
-		bottomHorizontalLayout.addView(playerIndicator);
-		bottomHorizontalLayout.addView(resetSelection);
-		bottomHorizontalLayout.addView(instructionText);
-		bottomHorizontalLayout.addView(acceptSelection);
-		bottomHorizontalLayout.addView(continueButton);
+		religionButton = new Button(context);
+		religionButton.setText("Religion");
+		religionButton.setTextColor(Color.WHITE);
+		religionButton.setTextSize(12);
+		religionButton.setBackgroundResource(R.drawable.custom_button);
+		religionButton.setLayoutParams(new LinearLayout.LayoutParams(buttonSize[0], buttonSize[1]));
 		
-		acceptSelection.setOnClickListener(new OnClickListener() {
+		politicsButton = new Button(context);
+		politicsButton.setText("Politics");
+		politicsButton.setTextColor(Color.WHITE);
+		politicsButton.setTextSize(12);
+		politicsButton.setBackgroundResource(R.drawable.custom_button);
+		politicsButton.setLayoutParams(new LinearLayout.LayoutParams(buttonSize[0], buttonSize[1]));
+		
+		bottomHorizontalLayout.addView(militaryButton);
+		bottomHorizontalLayout.addView(domesticButton);
+		bottomHorizontalLayout.addView(religionButton);
+		bottomHorizontalLayout.addView(politicsButton);
+		bottomHorizontalLayout.addView(plotButton);
+		bottomHorizontalLayout.addView(infoButton);
+		
+		infoButton.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				gameScreen.showDomesticScreen();
+				gameScreen.showInfoOptions();
 			}
 		});
 		
-		resetSelection.setOnClickListener(new OnClickListener() {
+		militaryButton.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				gameScreen.showMilitaryOptions();
 				
 			}
 		});
 		
-		continueButton.setOnClickListener(new OnClickListener() {
+		domesticButton.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				gameScreen.showDomesticOptions();
 				
 			}
 		});
 		
-		playerIndicator.setOnClickListener(new OnClickListener() {
+		politicsButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v){
+				gameScreen.showPoliticsOptions();
+			}
+		});
+	
+	
+		plotButton.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				gameScreen.showPlotOptions();
 				
 			}
 		});
 		
+		religionButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				gameScreen.showReligionOptions();
+				
+			}
+		});
 	}
+	
 	public View getView(){
 		return bottomHorizontalLayout;
 	}

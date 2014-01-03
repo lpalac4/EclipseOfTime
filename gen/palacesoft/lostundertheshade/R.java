@@ -36,7 +36,15 @@ public final class R {
         public static final int world_map=0x7f02000c;
     }
     public static final class id {
-        public static final int action_settings=0x7f080000;
+        public static final int action_settings=0x7f080008;
+        public static final int data1=0x7f080000;
+        public static final int data2=0x7f080001;
+        public static final int data3=0x7f080002;
+        public static final int data4=0x7f080003;
+        public static final int data5=0x7f080004;
+        public static final int data6=0x7f080005;
+        public static final int data7=0x7f080006;
+        public static final int data8=0x7f080007;
     }
     public static final class layout {
         public static final int activity_defeat_screen=0x7f030000;
@@ -51,6 +59,7 @@ public final class R {
         public static final int activity_start_up=0x7f030009;
         public static final int activity_treasury_screen=0x7f03000a;
         public static final int activity_win_screen=0x7f03000b;
+        public static final int custom_list_view=0x7f03000c;
     }
     public static final class menu {
         public static final int defeat_screen=0x7f070000;

@@ -7,7 +7,7 @@ public class BitmapCollection {
 	public static ImageView STANDARD_RES_MAP;
 
 	
-	/* person bitmaps */
+	/* generic soldier/citizen bitmaps */
 	
 	/* character bitmaps */
 	

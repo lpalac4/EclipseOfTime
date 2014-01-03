@@ -10,6 +10,7 @@ import palacesoft.eclipseoftime.actions.Religion;
 import palacesoft.eclipseoftime.actions.Treasury;
 
 import android.app.Activity;
+import android.content.Context;
 import android.widget.ImageView;
 
 /**
@@ -67,9 +68,9 @@ public class Kingdom {
 	 * @param sigilImage
 	 * @param activityContext
 	 */
-	public Kingdom(Player playerName, String rulerName, ImageView rulerImage, String kingdomName, ImageView sigilImage, Activity activityContext){
+	public Kingdom(Context context, Player playerName, String rulerName, ImageView rulerImage, String kingdomName, ImageView sigilImage, Activity activityContext){
 		player = playerName;
-		Ruler = new Characters(rulerName, rulerImage);
+		Ruler = new Characters(rulerName, rulerImage, this, context);
 		this.kingdomName = kingdomName;
 		sigil = sigilImage;
 		allies = new ArrayList<Kingdom>();

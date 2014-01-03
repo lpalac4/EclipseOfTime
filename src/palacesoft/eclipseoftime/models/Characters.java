@@ -3,6 +3,7 @@ package palacesoft.eclipseoftime.models;
 import java.util.ArrayList;
 
 import palacesoft.eclipseoftime.baseobjects.Person;
+import android.content.Context;
 import android.widget.ImageView;
 
 
@@ -23,8 +24,7 @@ public class Characters extends Person {
 	private boolean commited;
 	private boolean isAlive;
 	
-	private Item items;
-	private String name;
+	private ArrayList<Item> items;
 	private ImageView portrait;
 	private ArrayList<Characters> family;
 	private Kingdom faction;
@@ -58,9 +58,37 @@ public class Characters extends Person {
 	};
 	private Conversation convoType;
 		
+	public Characters(int str_, int cunning_ , int wisdom_, int auth_, int honor_, int faith_, int loyalty_, Rank rank_, CharacterType charType_, 
+			ArrayList<Item> items_, ImageView portrait_, ArrayList<Characters> family_, Kingdom faction_){
+		str = str_;
+		cunning =cunning_;
+		wisdom = wisdom_;
+		authority = auth_;
+		honor = honor_;
+		faith = faith_;
+		loyalty = loyalty_;
+		rank = rank_;
+		charType = charType_;
+		items = items_;
+		portrait = portrait_;
+		family = family_;
+		faction = faction_;
+	}
 	
-	public Characters(String rulerName, ImageView rulerImage) {
-		// TODO Auto-generated constructor stub
+	public Characters(String rulerName, ImageView rulerImage, Kingdom kingdom_, Context context) {
+		str =  50;
+		cunning = 50;
+		wisdom = 50;
+		authority = 50;
+		honor = 50;
+		faith = 50;
+		loyalty = 100;
+		rank = Rank.RULER;
+		items = new ArrayList<Item>();
+		portrait = new ImageView(context);
+		family = new ArrayList<Characters>();
+		faction = kingdom_;
+
 	}
 
 	public Characters() {
@@ -165,20 +193,12 @@ public class Characters extends Person {
 		this.faith = faith;
 	}
 
-	public Item getItems() {
+	public ArrayList<Item> getItems() {
 		return items;
 	}
 
-	public void setItems(Item items) {
+	public void setItems(ArrayList<Item> items) {
 		this.items = items;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public ImageView getPortrait() {
